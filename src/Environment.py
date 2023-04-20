@@ -58,6 +58,10 @@ class Environment:
 		pygame.font.init()
 		# Disable mouse
 		pygame.mouse.set_visible(False)
+		# Play the music
+		pygame.mixer.init()
+		pygame.mixer.music.load("music/evolution.mp3")
+		pygame.mixer.music.play()
 		# Render the screen
 		pygame.display.update()
 
