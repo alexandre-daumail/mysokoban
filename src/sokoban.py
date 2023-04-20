@@ -12,7 +12,7 @@ def drawLevel(matrix_to_draw):
 	space = pygame.image.load(myEnvironment.getPath() + '/themes/' + theme + '/images/space.png').convert()
 	target = pygame.image.load(myEnvironment.getPath() + '/themes/' + theme + '/images/target.png').convert()
 	player = pygame.image.load(myEnvironment.getPath() + '/themes/' + theme + '/images/player.png').convert()
-	
+
 	# If horizontal or vertical resolution is not enough to fit the level images then resize images
 	if my_level.getSize()[0] > myEnvironment.size[0] / 36 or my_level.getSize()[1] > myEnvironment.size[1] / 36:
 		
@@ -48,7 +48,13 @@ def drawLevel(matrix_to_draw):
 def movePlayer(direction, my_level):
 	
 	matrix = my_level.getMatrix()
-	
+
+	# Load sound effects
+	pygame.mixer.init()
+	wall_sfx = pygame.mixer.Sound('music/wall.wav')
+	box_sfx = pygame.mixer.Sound('music/box.wav')
+	on_target_sfx = pygame.mixer.Sound('music/on_target.wav')
+
 	my_level.addToHistory(matrix)
 	
 	x = my_level.getPlayerPosition()[0]
@@ -74,6 +80,7 @@ def movePlayer(direction, my_level):
 		
 		# if is_box
 		elif matrix[y][x-1] == "$":
+			box_sfx.play()
 			print("Box Found")
 			if matrix[y][x-2] == " ":
 				matrix[y][x-2] = "$"
@@ -95,6 +102,7 @@ def movePlayer(direction, my_level):
 				
 		# if is_box_on_target
 		elif matrix[y][x-1] == "*":
+			on_target_sfx.play()
 			print("Box on target Found")
 			if matrix[y][x-2] == " ":
 				matrix[y][x-2] = "$"
@@ -126,6 +134,7 @@ def movePlayer(direction, my_level):
 		
 		# else
 		else:
+			wall_sfx.play()
 			print("There is a wall here")
 	
 	elif direction == "R":
@@ -143,6 +152,7 @@ def movePlayer(direction, my_level):
 		
 		# if is_box
 		elif matrix[y][x+1] == "$":
+			box_sfx.play()
 			print("Box Found")
 			if matrix[y][x+2] == " ":
 				matrix[y][x+2] = "$"
@@ -164,6 +174,7 @@ def movePlayer(direction, my_level):
 		
 		# if is_box_on_target
 		elif matrix[y][x+1] == "*":
+			on_target_sfx.play()
 			print("Box on target Found")
 			if matrix[y][x+2] == " ":
 				matrix[y][x+2] = "$"
@@ -195,6 +206,7 @@ def movePlayer(direction, my_level):
 			
 		# else
 		else:
+			wall_sfx.play()
 			print("There is a wall here")
 
 	elif direction == "D":
@@ -212,6 +224,7 @@ def movePlayer(direction, my_level):
 		
 		# if is_box
 		elif matrix[y+1][x] == "$":
+			box_sfx.play()
 			print("Box Found")
 			if matrix[y+2][x] == " ":
 				matrix[y+2][x] = "$"
@@ -233,6 +246,7 @@ def movePlayer(direction, my_level):
 		
 		# if is_box_on_target
 		elif matrix[y+1][x] == "*":
+			on_target_sfx.play()
 			print("Box on target Found")
 			if matrix[y+2][x] == " ":
 				matrix[y+2][x] = "$"
@@ -264,6 +278,7 @@ def movePlayer(direction, my_level):
 			
 		# else
 		else:
+			wall_sfx.play()
 			print("There is a wall here")
 	elif direction == "U":
 		print("######### Moving Up #########")
@@ -280,6 +295,7 @@ def movePlayer(direction, my_level):
 		
 		# if is_box
 		elif matrix[y-1][x] == "$":
+			box_sfx.play()
 			print("Box Found")
 			if matrix[y-2][x] == " ":
 				matrix[y-2][x] = "$"
@@ -332,6 +348,7 @@ def movePlayer(direction, my_level):
 			
 		# else
 		else:
+			wall_sfx.play()
 			print( "There is a wall here")
 	
 	drawLevel(matrix)
